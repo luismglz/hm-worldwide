@@ -9,28 +9,35 @@
 
     <div class="p-5 mb-4 bg-light rounded-3">
       <div class="container-fluid py-5">
-        <h1 class="display-5 fw-bold">Custom jumbotron</h1>
-        <p class="col-md-8 fs-4">Using a series of utilities, you can create this jumbotron, just like the one in previous versions of Bootstrap. Check out the examples below for how you can remix and restyle it to your liking.</p>
-        <button class="btn btn-primary btn-lg" type="button">Example button</button>
+        <h1 class="display-5 fw-bold">H&M Studio A/W 2022</h1>
+        <p class="col-md-8 fs-4">Fabulously multitalented and supremely stylish, the dynamic sibling duo Joel and Georgia Palmer are a fierce creative force. The two started out as models and actors but have followed their passions into DJing, styling, photography and creative direction, and the energy they bring to their many projects is undeniably electric. We had the pleasure of talking to them about creativity, style and how they brought the H&M Studio A/W 2022 collection to life.</p>
+        <button class="btn btn-dark btn-lg" type="button">Read the story</button>
       </div>
     </div>
 
     <div class="row align-items-md-stretch">
       <div class="col-md-6">
-        <div class="h-100 p-5 text-white bg-dark rounded-3">
+        <div class="h-100 p-5 card-trending rounded-3">
           <h2>Change the background</h2>
           <p>Swap the background-color utility and add a `.text-*` color utility to mix up the jumbotron look. Then, mix and match with additional component themes and more.</p>
+          <image class="card-image" src="https://lp2.hm.com/hmgoepprod?set=width[320],quality[80],options[limit]&source=url[https://www2.hm.com/content/dam/h-m-magazine-2022/august_2022/3186/3086-Editorial-Lookbook-Magazine-Splash-Image.jpg]&scale=width[global.width],height[15000],options[global.options]&sink=format[jpg],quality[global.quality]">
           <button class="btn btn-outline-light" type="button">Example button</button>
         </div>
       </div>
       <div class="col-md-6">
-        <div class="h-100 p-5 bg-light border rounded-3">
+        <div class="h-100 p-5 card-trending rounded-3">
           <h2>Add borders</h2>
+          
           <p>Or, keep it light and add a border for some added definition to the boundaries of your content. Be sure to look under the hood at the source HTML here as we've adjusted the alignment and sizing of both column's content for equal-height.</p>
-          <button class="btn btn-outline-secondary" type="button">Example button</button>
+          <image class="card-image" src="https://lp2.hm.com/hmgoepprod?set=width[320],quality[80],options[limit]&source=url[https://www2.hm.com/content/dam/h-m-magazine-2022/august_2022/2006/2006-1-Magazine-Article-Top-image-1688x1126-jpg.jpg]&scale=width[global.width],height[15000],options[global.options]&sink=format[jpg],quality[global.quality]">
+            <div class="row">
+               <button class="btn btn-outline-secondary mt-3" type="button">Example button</button>
+            </div>
+         
         </div>
       </div>
     </div>
   </div>
+  {{models.StoresManager}}
 
 {% endblock %}
