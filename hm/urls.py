@@ -20,8 +20,8 @@ from storesinfo import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name="home"),
-    path('locations/', views.locations, name="locations"),
-    path('metrics/', views.metrics, name="metrics"),
-    path('charts/', views.charts, name="charts")
+    path('', views.HmView.home, name="home"),
+    path('locations/', views.HmView.locations, name="locations"),
+    path('metrics/', views.HmView.metrics, name="metrics"),
+    path('charts/', views.HmView.charts, name="charts")
 ]
