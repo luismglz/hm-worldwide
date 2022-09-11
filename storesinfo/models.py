@@ -37,6 +37,14 @@ class Store(models.Model):
   #all_stores = StoreManager() # The Dahl-specific manager.
   stores_obj = StoreManager()
 
+  def getAll():
+    return list(Store.objects.all())
+
+  def getTopFive():
+    query = 'SELECT country , COUNT(*) AS amount FROM hm.storesinfo_store GROUP BY country ORDER BY amount DESC LIMIT 5'
+    return list(Store.objects.raw(query))
+
+
 
 
 

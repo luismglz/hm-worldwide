@@ -4,22 +4,15 @@ from django.http.response import JsonResponse
 from django.shortcuts import render,HttpResponse, redirect
 from django.views import View
 from .models import Store
+from .shared import dataToDataframe
+
 
 # Create your views here.
 class HmView(View):
   def home(request):
-    #stores = AllSoresManager.get_queryset(self)
-    #stores = Store.all_stores.all()
-    stores = list(Store.objects.all())
-    print(type(stores))
-    print(len(stores))
-    print(stores[200].name)
-    
-   # if len(stores)>0:
-   #   data = {'message': 'success'}
-    #return JsonResponse(data)
-    return HttpResponse(request,stores)
-    #return render(request, 'home.html', {"stores": stores})
+    stores = Store.getAll()
+    content = dataToDataframe(stores)
+    return render(request, 'home.html', {"stores": content})
 
   def locations(request):
     return render(request, 'locations.html')
