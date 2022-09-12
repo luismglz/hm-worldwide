@@ -40,8 +40,24 @@ class Store(models.Model):
   def getAll():
     return list(Store.objects.all())
 
-  def getTopFive():
-    query = 'SELECT country , COUNT(*) AS amount FROM hm.storesinfo_store GROUP BY country ORDER BY amount DESC LIMIT 5'
+  def getTopFiveMostStores():
+    query = 'SELECT store_code,country, COUNT(*) AS amount FROM hm.storesinfo_store GROUP BY country ORDER BY amount DESC LIMIT 5'
+    return list(Store.objects.raw(query))
+
+  def getTopFiveFewestStores():
+    query = 'SELECT store_code,country, COUNT(*) AS amount FROM hm.storesinfo_store GROUP BY country ORDER BY amount ASC LIMIT 5'
+    return list(Store.objects.raw(query))
+
+  def getCityMostStores():
+    query = 'SELECT store_code,country, COUNT(*) AS amount FROM hm.storesinfo_store GROUP BY country ORDER BY amount DESC LIMIT 5'
+    return list(Store.objects.raw(query))
+
+  def getCityFewestStores():
+    query = 'SELECT store_code,country, COUNT(*) AS amount FROM hm.storesinfo_store GROUP BY country ORDER BY amount ASC LIMIT 5'
+    return list(Store.objects.raw(query))
+
+  def getAmountByCountry():
+    query = 'SELECT store_code,country, COUNT(country) as amountStores FROM hm.storesinfo_store GROUP BY country HAVING COUNT(country) >= 1 ORDER BY amountStores DESC'
     return list(Store.objects.raw(query))
 
 

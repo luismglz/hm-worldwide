@@ -1,13 +1,35 @@
 body{
   background-color: #faf9f8;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+#footer {
+  bottom: 0;
+  margin-top: auto;
 }
 
 .card-trending{
   background-color: #F4EDDD;
   color: #222222
 }
+.card-most{
+  background-color: #3635A6;
+  color: white
+}
+.card-few{
+  background-color: #FF3860!important;
+  color: #F5F5F5;
+  
+}
 
 .dataframe{
   border-radius: 10px!important;
   border: 1px #faf9f8!important;
+}
+
+.list-items{
+  font-size: 1.2rem;
+  margin-top: 1.3rem;
 }

@@ -2,6 +2,7 @@ from random import randint
 from django.db import models
 from msilib.schema import Class
 import pandas as pd
+import plotly.express as px
 
 def generateID():
   letters = 'XX'
@@ -34,4 +35,18 @@ def dataToDataframe(data):
 
   html_frame = frame.to_html(classes = 'table table-hover dataframe').replace('border="1"','border="0"')
   return html_frame
+
+def displayBarChart(data, chartTitle, xlabel, ylabel):
+  fig = px.bar(
+    x=[item.country for item in data],
+    y=[item.amountStores for item in data],
+    text_auto='.2s',
+    title=chartTitle,
+    labels={'x':xlabel, 'y': ylabel}
+  )
+  fig.update_traces(textfont_size=27, textangle=0, textposition="outside", cliponaxis=False)
+  fig.update_layout(paper_bgcolor='rgba(0, 0, 0, 0)')
+
+  chart = fig.to_html()
+  return {'chart':chart}
 
