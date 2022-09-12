@@ -8,9 +8,16 @@
   <div class="columns is-mobile is-centered container py-4">
   <h1>Metrics</h1>
     <div class="row align-items-md-stretch mt-4">
+      <div class="col-md-12">
+        <div class="h-100 p-5 bg-dark text-white rounded-3">
+          <h2>Average number of stores per city</h2>
+          <p>{{mean}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="row align-items-md-stretch mt-4">
       <div class="col-md-8">
         <div class="h-100 p-5 card-most rounded-3">
-         
           <h2>TOP 5 Countries with most stores</h2>
           <ol class="list-items">
           {% for item in countriesMost %}

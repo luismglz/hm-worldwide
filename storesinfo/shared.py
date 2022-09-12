@@ -3,6 +3,7 @@ from django.db import models
 from msilib.schema import Class
 import pandas as pd
 import plotly.express as px
+import numpy as np
 
 def generateID():
   letters = 'XX'
@@ -49,4 +50,12 @@ def displayBarChart(data, chartTitle, xlabel, ylabel):
 
   chart = fig.to_html()
   return {'chart':chart}
+
+def getMean(data):
+  dataAsArray = []
+  for i in data:
+    dataAsArray.append(i.totalStores)
+  amount = np.array(dataAsArray)
+  mean = "{:.2f}".format(np.mean(amount))
+  return mean
 

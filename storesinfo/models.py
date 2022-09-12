@@ -60,6 +60,10 @@ class Store(models.Model):
     query = 'SELECT store_code,country, COUNT(country) as amountStores FROM hm.storesinfo_store GROUP BY country HAVING COUNT(country) >= 1 ORDER BY amountStores DESC'
     return list(Store.objects.raw(query))
 
+  def getAmountByCity():
+    query = 'SELECT store_code, COUNT(city)  AS totalStores FROM hm.storesinfo_store  GROUP BY city'
+    return list(Store.objects.raw(query))
+
 
 
 
