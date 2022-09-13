@@ -1,10 +1,11 @@
 from distutils.command.sdist import sdist
 from functools import singledispatchmethod
+from multiprocessing import context
 from django.http.response import JsonResponse
 from django.shortcuts import render,HttpResponse, redirect
 from django.views import View
 from .models import Store
-from .shared import dataToDataframe, displayBarChart, getMean
+from .shared import dataToDataframe, displayBarChart, getMean, displayPieChart
 
 
 # Create your views here.
@@ -35,6 +36,22 @@ class HmView(View):
     return render(request, 'metrics.html',context)
 
   def charts(request):
-    data = Store.getAmountByCountry()
-    context = displayBarChart(data,'Stores by country', 'Stores amount', 'Country')
+    dataAmountByCountry = Store.getAmountByCountry()
+    barChartAmountByCountry = displayBarChart(dataAmountByCountry,'Stores by country', 'Stores amount', 'Country')
+
+    dataTop5CitiesMostStoresJP = Store.getTop5CitiesMostStores(country='Japan')
+    pieChartTop5CitiesJP = displayPieChart(dataTop5CitiesMostStoresJP)
+
+    dataTop5CitiesMostStoresMX = Store.getTop5CitiesMostStores(country='Mexico')
+    pieChartTop5CitiesMX = displayPieChart(dataTop5CitiesMostStoresMX)
+    
+    
+
+    
+    context = {
+      'barAmountByCountry': barChartAmountByCountry,
+      'pieTopJP': pieChartTop5CitiesJP,
+      'pieTopMX': pieChartTop5CitiesMX,
+    }
+
     return render(request, 'charts.html', context)

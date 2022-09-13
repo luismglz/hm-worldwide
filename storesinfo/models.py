@@ -64,6 +64,10 @@ class Store(models.Model):
     query = 'SELECT store_code, COUNT(city)  AS totalStores FROM hm.storesinfo_store  GROUP BY city'
     return list(Store.objects.raw(query))
 
+  def getTop5CitiesMostStores(country):
+    query = f"SELECT store_code ,city , COUNT(*) AS amount FROM hm.storesinfo_store WHERE country = '{country}'GROUP BY city ORDER BY amount DESC LIMIT 5"
+    return list(Store.objects.raw(query))
+
 
 
 

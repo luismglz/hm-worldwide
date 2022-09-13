@@ -49,7 +49,28 @@ def displayBarChart(data, chartTitle, xlabel, ylabel):
   fig.update_layout(paper_bgcolor='rgba(0, 0, 0, 0)')
 
   chart = fig.to_html()
-  return {'chart':chart}
+  return chart
+
+
+def displayPieChart(data):
+  fig = px.pie(data, values=[item.amount for item in data], names=[item.city for item in data],
+              title='Top 5 cities with the most stores (Japan)', labels={'amount':'Stores Amount'})
+  fig.update_traces(textposition='inside', textinfo='percent+label')
+  #fig.show()
+
+
+  """fig = px.bar(
+    x=[item.country for item in data],
+    y=[item.amountStores for item in data],
+    text_auto='.2s',
+    title=chartTitle,
+    labels={'x':xlabel, 'y': ylabel}
+  )"""
+  #fig.update_traces(textfont_size=27, textangle=0, textposition="outside", cliponaxis=False)
+  fig.update_layout(paper_bgcolor='rgba(0, 0, 0, 0)')
+
+  chart = fig.to_html()
+  return chart
 
 def getMean(data):
   dataAsArray = []
