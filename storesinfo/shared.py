@@ -46,7 +46,7 @@ def displayBarChart(data, chartTitle, xlabel, ylabel):
     labels={'x':xlabel, 'y': ylabel}
   )
   fig.update_traces(textfont_size=27, textangle=0, textposition="outside", cliponaxis=False)
-  fig.update_layout(paper_bgcolor='rgba(0, 0, 0, 0)')
+  fig.update_layout(paper_bgcolor='rgba(0, 0, 0, 0)', font_size=14, font_color='white')
 
   chart = fig.to_html()
   return chart

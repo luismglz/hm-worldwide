@@ -21,17 +21,18 @@ class HmView(View):
   def metrics(request):
     countries_top_most = Store.getTopFiveMostStores()
     countries_top_fewest = Store.getTopFiveFewestStores()
-    city_most_stores= Store.getCityMostStores()
-    city_fewest_stores= Store.getCityFewestStores()
+    cities_most_stores= Store.getCitiesMostStores()
+    cities_fewest_stores= Store.getCitiesFewestStores()
     get_cities = Store.getAmountByCity()
     mean = getMean(get_cities)
-
+    city_most_stores = Store.getCityMostStores()
     context = {
       "countriesMost":countries_top_most,
       "countriesFewest":countries_top_fewest,
+      "citiesMost":cities_most_stores,
+      "citiesFew":cities_fewest_stores,
+      "mean":mean,
       "cityMost":city_most_stores,
-      "cityFew":city_fewest_stores,
-      "mean":mean
     }
     return render(request, 'metrics.html',context)
 

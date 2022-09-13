@@ -7,17 +7,24 @@
 {{block.super}}
   <div class="columns is-mobile is-centered container py-4">
   <h1>Metrics</h1>
-    <div class="row align-items-md-stretch mt-4">
-      <div class="col-md-12">
-        <div class="h-100 p-5 bg-dark text-white rounded-3">
-          <h2>Average number of stores per city</h2>
-          <p>{{mean}}</p>
+    <div class="row align-items-md-stretch mt-4 d-flex justify-content-center">
+       <div class="col-md-4">
+        <div class="h-100 p-5 card-data  ">
+          <h5>City with the most stores in the world</h5>
+          <p class="amountMetric">{{cityMost.0.city}}</p>
         </div>
       </div>
+      <div class="col-md-8">
+        <div class="h-100 p-5 bg-dark text-white ">
+          <h5>Average number of stores per city</h5>
+          <p class="amountMetric">{{mean}}</p>
+        </div>
+      </div>
+     
     </div>
     <div class="row align-items-md-stretch mt-4">
       <div class="col-md-8">
-        <div class="h-100 p-5 card-most rounded-3">
+        <div class="h-100 p-5 card-most ">
           <h2>TOP 5 Countries with most stores</h2>
           <ol class="list-items">
           {% for item in countriesMost %}
@@ -26,8 +33,10 @@
           </ol>
         </div>
       </div>
+      
+
       <div class="col-md-4">
-        <div class="h-100 p-5 card-few border rounded-3">
+        <div class="h-100 p-5 card-few  ">
           
           <h3>TOP 5 Countries with fewest stores</h3>
           <ol class="list-items">
@@ -44,20 +53,20 @@
     <div class="row align-items-md-stretch mt-4">
      
       <div class="col-md-7">
-        <div class="h-100 p-5 card-few border rounded-3">
+        <div class="h-100 p-5 card-few border ">
           <h3>TOP 5 Cities with fewest stores</h3>
           <ol class="list-items">
-          {% for item in cityMost %}
+          {% for item in citiesMost %}
             <li>{{item.city}} <strong>({{item.amount}})</strong></li>
           {% endfor %}
           </ol>
         </div>
       </div>
        <div class="col-md-5">
-        <div class="h-100 p-5 card-most rounded-3">
+        <div class="h-100 p-5 card-most ">
           <h2>TOP 5 Cities with most stores</h2>
           <ol class="list-items">
-          {% for item in cityFew %}
+          {% for item in citiesFew %}
             <li>{{item.city}} <strong>({{item.amount}})</strong></li>
           {% endfor %}
           </ol>

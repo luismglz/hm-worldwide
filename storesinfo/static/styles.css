@@ -1,8 +1,20 @@
-body{
+body {
   background-color: #faf9f8;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  font-family: 'HMSans';
+}
+
+@font-face {
+  font-family: 'HMSans';
+  src: url("./fonts/HMSansLatin-Regular.woff")format('woff');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'HMSansBold';
+  src: url("./fonts/HMSansLatin-Bold.woff")format('woff');
+  font-display: swap;
 }
 
 #footer {
@@ -10,26 +22,46 @@ body{
   margin-top: auto;
 }
 
-.card-trending{
+.card-trending {
   background-color: #F4EDDD;
   color: #222222
 }
-.card-most{
-  background-color: #3635A6;
+
+.card-most {
+  /* background-color: #3635A6; */
+  background-color: #0000D7;
   color: white
 }
-.card-few{
-  background-color: #FF3860!important;
-  color: #F5F5F5;
-  
+
+.card-few {
+  /* background-color: #FF3860 !important; */
+  /* color: #F5F5F5; */
+  background-color: #222222;
+  color: #FFF;
 }
 
-.dataframe{
-  border-radius: 10px!important;
-  border: 1px #faf9f8!important;
+.card-data{
+  background-color: #f1ebdf;
+  color: #e50010;
 }
 
-.list-items{
+.dataframe {
+  border-radius: 10px !important;
+  border: 1px #faf9f8 !important;
+}
+
+.list-items {
   font-size: 1.2rem;
   margin-top: 1.3rem;
+}
+
+.grayChart{
+  background-color: #fff;
+}
+
+.amountMetric {
+  font-size: 4rem;
+  font-weight: bold;
+  font-family: 'HMSansBold';
+  
 }
