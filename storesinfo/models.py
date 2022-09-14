@@ -49,11 +49,11 @@ class Store(models.Model):
     return list(Store.objects.raw(query))
 
   def getCitiesMostStores():
-    query = 'SELECT store_code,country, COUNT(*) AS amount FROM hm.storesinfo_store GROUP BY country ORDER BY amount DESC LIMIT 5'
+    query = 'SELECT store_code,city , COUNT(*) AS amount FROM hm.storesinfo_store GROUP BY city ORDER BY amount DESC LIMIT 5'
     return list(Store.objects.raw(query))
 
   def getCitiesFewestStores():
-    query = 'SELECT store_code,country, COUNT(*) AS amount FROM hm.storesinfo_store GROUP BY country ORDER BY amount ASC LIMIT 5'
+    query = 'SELECT store_code,city, COUNT(*) AS amount FROM hm.storesinfo_store GROUP BY city ORDER BY amount ASC LIMIT 5'
     return list(Store.objects.raw(query))
 
   def getAmountByCountry():

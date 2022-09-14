@@ -41,10 +41,10 @@ class HmView(View):
     barChartAmountByCountry = displayBarChart(dataAmountByCountry,'Stores by country', 'Stores amount', 'Country')
 
     dataTop5CitiesMostStoresJP = Store.getTop5CitiesMostStores(country='Japan')
-    pieChartTop5CitiesJP = displayPieChart(dataTop5CitiesMostStoresJP)
+    pieChartTop5CitiesJP = displayPieChart(dataTop5CitiesMostStoresJP, 'Japan')
 
     dataTop5CitiesMostStoresMX = Store.getTop5CitiesMostStores(country='Mexico')
-    pieChartTop5CitiesMX = displayPieChart(dataTop5CitiesMostStoresMX)
+    pieChartTop5CitiesMX = displayPieChart(dataTop5CitiesMostStoresMX, 'Mexico')
     
     
 

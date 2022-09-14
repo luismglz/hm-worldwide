@@ -52,9 +52,9 @@ def displayBarChart(data, chartTitle, xlabel, ylabel):
   return chart
 
 
-def displayPieChart(data):
+def displayPieChart(data, country):
   fig = px.pie(data, values=[item.amount for item in data], names=[item.city for item in data],
-              title='Top 5 cities with the most stores (Japan)', labels={'amount':'Stores Amount'})
+              title= f'Top 5 cities with the most stores ({country})', labels={'amount':'Stores Amount'})
   fig.update_traces(textposition='inside', textinfo='percent+label')
   #fig.show()
 

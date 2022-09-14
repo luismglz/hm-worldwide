@@ -44,6 +44,22 @@ body {
   background-color: #f1ebdf;
   color: #e50010;
 }
+.card-blue{
+  background-color: #AECBFA;
+  color: #136FE7;
+}
+.card-green{
+  background-color: #FDF6DA;
+  color: #798054;
+}
+.card-purple{
+  background-color: #F4EFF8;
+  color: #6750A4;
+}
+
+.li-data{
+    font-size: 1.8rem;
+}
 
 .dataframe {
   border-radius: 10px !important;
@@ -56,7 +72,8 @@ body {
 }
 
 .grayChart{
-  background-color: #fff;
+  background-color: #D7D8DF;
+  color: #000;
 }
 
 .amountMetric {
