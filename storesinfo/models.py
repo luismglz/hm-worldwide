@@ -9,6 +9,27 @@ class StoreManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset()
 
+
+# Create your models here.
+class Population(models.Model):
+  #store_code = models.CharField(primary_key=True,max_length=6, default=generateID)
+  longitudeRange = models.FloatField(max_length=50,null=False)
+  latitudeRange = models.FloatField(max_length=50,null=False)
+  samplesNumber = models.IntegerField(null=False)
+  clusterStd = models.FloatField(null=False)
+
+  objects = models.Manager()
+  stores_obj = StoreManager()
+
+class KMeans(models.Model):
+  clustersNumber = models.IntegerField(null=False)
+  tolerance = models.FloatField(null=False)
+  numberIterations = models.IntegerField(null=False)
+  clusterStd = models.FloatField(null=False)
+
+  objects = models.Manager()
+  stores_obj = StoreManager()
+
 # Create your models here.
 class Store(models.Model):
   store_code = models.CharField(primary_key=True,max_length=6, default=generateID)

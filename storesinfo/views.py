@@ -4,8 +4,9 @@ from multiprocessing import context
 from django.http.response import JsonResponse
 from django.shortcuts import render,HttpResponse, redirect
 from django.views import View
-from .models import Store
+from .models import Population, Store
 from .shared import dataToDataframe, displayBarChart, getMean, displayPieChart
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
@@ -59,9 +60,25 @@ class HmView(View):
 
       #random = [randrange(4200),randrange(4200),randrange(4200),randrange(4200)]
 
+  @csrf_exempt
   def populations(request):
    # print(Store.getRandomCountries(20))
     return render(request, 'populations.html')
+
+  def addPopulation(request):
+    if request.method == "POST":
+      longitudeRange = request.POST['longitudeRange']
+      latitudeRange = request.POST['latitudeRange']
+      samplesNumber = request.POST['samplesNumber']
+      clusterStd = request.POST['dispersion']
+      population = Population(
+      longitudeRange = longitudeRange,
+      latitudeRange = latitudeRange,
+      samplesNumber = samplesNumber,
+      clusterStd = clusterStd,
+      )
+      population.save()
+      return redirect('populations')
 
 
   def clusters(request):

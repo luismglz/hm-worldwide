@@ -90,7 +90,7 @@ function populationMaps(){
   var map1 = L.map('map1').setView([22.824722452136204, 174.73532038186778], 2);
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 20,
-    attribution: '© OpenStreetMap'
+    attribution: ''
   }).addTo(map1);
 
   const locations = obtainMarkers();
