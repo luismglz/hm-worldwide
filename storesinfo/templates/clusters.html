@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+{%block title%}Clusters{%endblock%}
+
+
+{% block content %}
+<div class="container-xxl">
+{{block.super}}
+  <h1>Clusters</h1>
+      <div class="  py-3">
+        <div class="bg-light border rounded-3 row d-flex justify-content-between">
+            <div  id="map1" class="col-3 "></div>
+            <div  id="map2" class="col-3 "></div>
+            <div id="map3" class="col-3 "></div>
+            <div class="bg-light border rounded-3 col-3">
+            <form>
+              <h1>K-Means</h1>
+              <div class="form-outline my-4">
+                <label class="form-label" for="form6Example6">Clusters number</label>
+                <input type="number" id="form6Example6" class="form-control" />
+              </div>
+              <div class="form-outline mb-4">
+                <label class="form-label" for="form6Example6">Tolerance</label>
+                <input type="number" id="form6Example6" class="form-control" />
+              </div>
+              <div class="form-outline mb-4">
+                <label class="form-label" for="form6Example6">Number of iterations</label>
+                <input type="number" id="form6Example6" class="form-control" />
+              </div>
+              <div class="form-outline mb-4">
+                <label class="form-label" for="form6Example6">Dispersion</label>
+                <input type="number" id="form6Example6" class="form-control" />
+              </div>
+              <div class="row px-4 d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary btn-block mb-4 col-6">Train model</button>
+              </div>
+              
+            </form>
+        </div>
+        </div>
+        
+      </div>
+      
+<div>
+  {%endblock%}

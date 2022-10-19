@@ -63,3 +63,8 @@ class HmView(View):
    # print(Store.getRandomCountries(20))
     return render(request, 'populations.html')
 
+
+  def clusters(request):
+   # print(Store.getRandomCountries(20))
+    return render(request, 'clusters.html')
+

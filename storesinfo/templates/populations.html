@@ -3,37 +3,44 @@
 
 
 {% block content %}
-<div class="content">
+<div class="container-xxl">
 {{block.super}}
-  <div class="container">
   <h1>Populations</h1>
-      <div class="row d-flex justify-content-between">
-        <div class="bg-light border rounded-3 col-3 ">
-            <div  id="map1" class="w-100 h-100"></div>
-        </div>
-        <div class="bg-light border rounded-3 col-3">
-            <div  id="map2" class="w-100 h-100"></div>
-        </div>
-        <div class="bg-light border rounded-3 col-3">
-            <div id="map3" class="w-100 h-100"></div>
-        </div>
-        <div class="bg-light border rounded-3 col-3">
+      <div class="  py-3">
+        <div class="bg-light rounded-3 row d-flex justify-content-between">
+            <div  id="map1" class="col-3 "></div>
+            <div  id="map2" class="col-3 "></div>
+            <div id="map3" class="col-3 "></div>
+            <div class="bg-light border rounded-3 col-3">
             <form>
-  <!-- 2 column grid layout with text inputs for the first and last names -->
-
-  <!-- Number input -->
-  <div class="form-outline mb-4">
-    <label class="form-label" for="form6Example6">Phone</label>
-    <input type="number" id="form6Example6" class="form-control" />
-  </div>
-
-
-  <!-- Submit button -->
-  <button type="submit" class="btn btn-primary btn-block mb-4">Place order</button>
-</form>
+              <div class="form-outline my-4">
+                <label class="form-label" for="form6Example6">Longitude range</label>
+                <input type="number" id="form6Example6" class="form-control" />
+              </div>
+              <div class="form-outline mb-4">
+                <label class="form-label" for="form6Example6">Latitude range</label>
+                <input type="number" id="form6Example6" class="form-control" />
+              </div>
+              <div class="form-outline mb-4">
+                <label class="form-label" for="form6Example6">Number of samples</label>
+                <input type="number" id="form6Example6" class="form-control" />
+              </div>
+              <div class="form-outline mb-4">
+                <label class="form-label" for="form6Example6">Dispersion</label>
+                <input type="number" id="form6Example6" class="form-control" />
+              </div>
+              <div class="row px-4 d-flex justify-content-center">
+                <button type="submit" class="btn btn-outline-dark btn-block mb-4 col-6">Confirm</button>
+              </div>
+              <div class="row px-4  d-flex justify-content-center">
+                <button type="submit" class="btn btn-outline-dark btn-block mb-4 col-6">Add</button>
+              </div>
+              
+            </form>
         </div>
+        </div>
+        
       </div>
-    </div>
       
 <div>
   {%endblock%}

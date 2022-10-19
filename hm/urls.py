@@ -24,5 +24,6 @@ urlpatterns = [
     path('locations/', views.HmView.locations, name="locations"),
     path('metrics/', views.HmView.metrics, name="metrics"),
     path('charts/', views.HmView.charts, name="charts"),
-    path('populations/', views.HmView.populations, name="populations")
+    path('populations/', views.HmView.populations, name="populations"),
+    path('clusters/', views.HmView.clusters, name="clusters")
 ]
