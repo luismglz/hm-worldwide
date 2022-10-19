@@ -46,13 +46,20 @@ class HmView(View):
     dataTop5CitiesMostStoresMX = Store.getTop5CitiesMostStores(country='Mexico')
     pieChartTop5CitiesMX = displayPieChart(dataTop5CitiesMostStoresMX, 'Mexico')
     
-    
-
-    
     context = {
       'barAmountByCountry': barChartAmountByCountry,
       'pieTopJP': pieChartTop5CitiesJP,
       'pieTopMX': pieChartTop5CitiesMX,
     }
-
     return render(request, 'charts.html', context)
+
+
+   # def getRandomLocations(request):
+      
+
+      #random = [randrange(4200),randrange(4200),randrange(4200),randrange(4200)]
+
+  def populations(request):
+   # print(Store.getRandomCountries(20))
+    return render(request, 'populations.html')
+

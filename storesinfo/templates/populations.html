@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+{%block title%}Populations{%endblock%}
+
+
+{% block content %}
+<div class="content">
+{{block.super}}
+  <div class="container py-4">
+  <h1>Populations</h1>
+      <div class="">
+        <div class="bg-light border rounded-3 row d-flex justify-content-between">
+            <div class="col-3" style="height:60vh;" id="map1"></div>
+            <div class="col-3" style="height:60vh;" id="map2"></div>
+            <div class="col-3" style="height:60vh;" id="map3"></div>
+        </div>
+      </div>
+    </div>
+      
+<div>
+  {%endblock%}

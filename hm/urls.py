@@ -23,5 +23,6 @@ urlpatterns = [
     path('', views.HmView.home, name="home"),
     path('locations/', views.HmView.locations, name="locations"),
     path('metrics/', views.HmView.metrics, name="metrics"),
-    path('charts/', views.HmView.charts, name="charts")
+    path('charts/', views.HmView.charts, name="charts"),
+    path('populations/', views.HmView.populations, name="populations")
 ]

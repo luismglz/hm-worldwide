@@ -73,6 +73,11 @@ class Store(models.Model):
     return list(Store.objects.raw(query))
 
 
+  def getRandomCountries(amount):
+    query = f"SELECT * FROM hm.storesinfo_store ORDER BY RAND () LIMIT {amount}"
+    return list(Store.objects.raw(query))
+
+
 
 
 

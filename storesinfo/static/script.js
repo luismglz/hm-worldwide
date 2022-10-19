@@ -76,28 +76,71 @@ function obtainMarkers() {
   return places;
 }
 
-var map = L.map('map').setView([22.824722452136204, 174.73532038186778], 2);
-
+var map1 = L.map('map1').setView([22.824722452136204, 174.73532038186778], 2);
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 20,
   attribution: '© OpenStreetMap'
-}).addTo(map);
+}).addTo(map1);
 
-const markers1 = obtainMarkers();
+const locations = obtainMarkers();
+var markers1 = L.markerClusterGroup();
 
-var markers = L.markerClusterGroup();
-
-
-
-for (a of markers1) {
+for (a of locations) {
   let dataPopUp = `
 <b>${a.storeName}, ${a.city}</b>
 <br>
 <label>Lat: ${a.latitude}, Lng: ${a.longitude}</label>`
 
-  var marker = L.marker([a.latitude, a.longitude]).addTo(map);
-  marker.bindPopup(dataPopUp).openPopup();
-  markers.addLayer(marker);
+  var marker1 = L.marker([a.latitude, a.longitude]).addTo(map1);
+  marker1.bindPopup(dataPopUp).openPopup();
+  markers1.addLayer(marker1);
 }
 
-map.addLayer(markers); 
+map1.addLayer(markers1); 
+
+
+
+var map2 = L.map('map2').setView([22.824722452136204, 174.73532038186778], 2);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 20,
+  attribution: '© OpenStreetMap'
+}).addTo(map2);
+
+var markers2 = L.markerClusterGroup();
+
+for (a of locations) {
+  let dataPopUp = `
+<b>${a.storeName}, ${a.city}</b>
+<br>
+<label>Lat: ${a.latitude}, Lng: ${a.longitude}</label>`
+
+  var marker2 = L.marker([a.latitude, a.longitude]).addTo(map2);
+  marker2.bindPopup(dataPopUp).openPopup();
+  markers2.addLayer(marker2);
+}
+
+map2.addLayer(markers2); 
+
+
+
+
+var map3 = L.map('map3').setView([22.824722452136204, 174.73532038186778], 2);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 20,
+  attribution: '© OpenStreetMap'
+}).addTo(map3);
+
+var markers3 = L.markerClusterGroup();
+
+for (a of locations) {
+  let dataPopUp = `
+<b>${a.storeName}, ${a.city}</b>
+<br>
+<label>Lat: ${a.latitude}, Lng: ${a.longitude}</label>`
+
+  var marker3 = L.marker([a.latitude, a.longitude]).addTo(map3);
+  marker3.bindPopup(dataPopUp).openPopup();
+  markers3.addLayer(marker3);
+}
+
+map3.addLayer(markers3); 
