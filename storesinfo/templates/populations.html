@@ -12,23 +12,28 @@
             <div  id="map2" class="col-3 "></div>
             <div id="map3" class="col-3 "></div>
             <div class="bg-light border rounded-3 col-3">
-            <form action="/population/add/" method="POST">
+            <form action="/populations/add/" method="POST">
               {% csrf_token %}
-              <div class="form-outline my-4">
-                <label class="form-label" for="longitudeRange">Longitude range</label>
-                <input type="number" id="longitudeRange" name="longitudeRange" class="form-control" />
+              <div class="form-outline mb-4">
+                <label class="form-label" for="titleSet">Title of set</label>
+                <input type="text" id="titleSet" name="titleSet" class="form-control" />
               </div>
               <div class="form-outline mb-4">
                 <label class="form-label" for="latitudeRange">Latitude range</label>
-                <input type="number" id="latitudeRange" class="form-control" />
+                <input type="number"  step="0.00000000001" id="latitudeRange" name="latitudeRange" class="form-control" />
               </div>
+              <div class="form-outline my-4">
+                <label class="form-label" for="longitudeRange">Longitude range</label>
+                <input type="number"  step="0.00000000001" id="longitudeRange" name="longitudeRange" class="form-control" />
+              </div>
+           
               <div class="form-outline mb-4">
                 <label class="form-label" for="samplesNumber">Number of samples</label>
                 <input type="number" id="samplesNumber" name="samplesNumber" class="form-control" />
               </div>
               <div class="form-outline mb-4">
                 <label class="form-label" for="dispersion">Dispersion</label>
-                <input type="number" id="dispersion" name="dispersion" class="form-control" />
+                <input type="number" step="0.00001" id="dispersion" name="dispersion" class="form-control" />
               </div>
               <div class="row px-4 d-flex justify-content-center">
                 <button type="submit" class="btn btn-outline-dark btn-block mb-4 col-6">Confirm</button>

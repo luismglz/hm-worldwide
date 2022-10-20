@@ -13,6 +13,7 @@ class StoreManager(models.Manager):
 # Create your models here.
 class Population(models.Model):
   #store_code = models.CharField(primary_key=True,max_length=6, default=generateID)
+  titleSet = models.CharField(max_length=120, null=True)
   longitudeRange = models.FloatField(max_length=50,null=False)
   latitudeRange = models.FloatField(max_length=50,null=False)
   samplesNumber = models.IntegerField(null=False)
@@ -22,6 +23,7 @@ class Population(models.Model):
   stores_obj = StoreManager()
 
 class KMeans(models.Model):
+  titleCluster = models.CharField(max_length=120, null=True)
   clustersNumber = models.IntegerField(null=False)
   tolerance = models.FloatField(null=False)
   numberIterations = models.IntegerField(null=False)

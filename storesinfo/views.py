@@ -65,20 +65,27 @@ class HmView(View):
    # print(Store.getRandomCountries(20))
     return render(request, 'populations.html')
 
+
+#-90 and 90 latitude x
+#-180 and 180 longitude y
   def addPopulation(request):
     if request.method == "POST":
+      titleSet = request.POST['titleSet']
       longitudeRange = request.POST['longitudeRange']
       latitudeRange = request.POST['latitudeRange']
       samplesNumber = request.POST['samplesNumber']
       clusterStd = request.POST['dispersion']
       population = Population(
-      longitudeRange = longitudeRange,
-      latitudeRange = latitudeRange,
-      samplesNumber = samplesNumber,
-      clusterStd = clusterStd,
+        titleSet = titleSet,
+        longitudeRange = longitudeRange,
+        latitudeRange = latitudeRange,
+        samplesNumber = samplesNumber,
+        clusterStd = clusterStd,
       )
       population.save()
+     # print(population.titleSet)
       return redirect('populations')
+      #return HttpResponse(population.latitudeRange)
 
 
   def clusters(request):
