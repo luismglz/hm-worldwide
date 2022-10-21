@@ -65,8 +65,9 @@ class HmView(View):
   @csrf_exempt
   def populations(request):
    # print(Store.getRandomCountries(20))
+   # map = createPopulationMap()
     populations = Population.getAll()
-    print(populations)
+    #print(populations)
     context = {
       "populations":populations
     }
@@ -94,6 +95,7 @@ class HmView(View):
         clusterStd = clusterStd,
       )
       population.save()
+      
      # print(population.titleSet)
       return redirect('populations')
       #return HttpResponse(population.latitudeRange)
@@ -102,10 +104,23 @@ class HmView(View):
     if request.method == "POST":
       id = request.POST['cluster']
       clusterArgs = Population.getPopulationById(id)
-      print(clusterArgs)
-      #dataset = shared.createDatasetLocations()
-     # print(population.titleSet)
-      return redirect('populations')
+      dataset = shared.createDatasetLocations(
+        clusterArgs[0].latitudeRangeMax,
+        clusterArgs[0].latitudeRangeMin,
+        clusterArgs[0].longitudeRangeMax,
+        clusterArgs[0].longitudeRangeMin,
+        clusterArgs[0].samplesNumber,
+        clusterArgs[0].clusterStd,
+      )
+      
+      map = shared.displayMap(dataset[:,:])
+      populations = Population.getAll()
+      context = {
+      'map': map,
+      "populations":populations
+      }
+     
+      return render(request, 'populations.html', context)
       #return HttpResponse(population.latitudeRange)
 
 

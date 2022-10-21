@@ -8,9 +8,11 @@
   <h1>Populations</h1>
       <div class="  py-3">
         <div class="bg-light rounded-3 row d-flex justify-content-between">
-            <div  id="map1" class="col-7 "></div>
-            {% comment %} <div  id="map2" class="col-3 "></div> {% endcomment %}
-            {% comment %} <div id="map3" class="col-3 "></div> {% endcomment %}
+            {% comment %} <div  id="map1" class="col-7 "></div> {% endcomment %}
+            <div class="col-7 ">
+              {{map|safe}}
+            </div>
+            
             <div class="bg-light border rounded-3 col-5">
             <form action="/populations/add/" method="POST">
               {% csrf_token %}
