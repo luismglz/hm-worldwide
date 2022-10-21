@@ -8,6 +8,8 @@ from .models import Population, Store
 from .shared import dataToDataframe, displayBarChart, getMean, displayPieChart
 from django.views.decorators.csrf import csrf_exempt
 
+from storesinfo import shared
+
 
 # Create your views here.
 class HmView(View):
@@ -63,7 +65,12 @@ class HmView(View):
   @csrf_exempt
   def populations(request):
    # print(Store.getRandomCountries(20))
-    return render(request, 'populations.html')
+    populations = Population.getAll()
+    print(populations)
+    context = {
+      "populations":populations
+    }
+    return render(request, 'populations.html', context)
 
 
 #-90 and 90 latitude x
@@ -71,18 +78,32 @@ class HmView(View):
   def addPopulation(request):
     if request.method == "POST":
       titleSet = request.POST['titleSet']
-      longitudeRange = request.POST['longitudeRange']
-      latitudeRange = request.POST['latitudeRange']
+      longitudeRangeMax = request.POST['longitudeRangeMax']
+      longitudeRangeMin = request.POST['longitudeRangeMin']
+      latitudeRangeMax = request.POST['latitudeRangeMax']
+      latitudeRangeMin = request.POST['latitudeRangeMin']
       samplesNumber = request.POST['samplesNumber']
       clusterStd = request.POST['dispersion']
       population = Population(
         titleSet = titleSet,
-        longitudeRange = longitudeRange,
-        latitudeRange = latitudeRange,
+        longitudeRangeMax = longitudeRangeMax,
+        longitudeRangeMin = longitudeRangeMin,
+        latitudeRangeMax = latitudeRangeMax,
+        latitudeRangeMin = latitudeRangeMin,
         samplesNumber = samplesNumber,
         clusterStd = clusterStd,
       )
       population.save()
+     # print(population.titleSet)
+      return redirect('populations')
+      #return HttpResponse(population.latitudeRange)
+
+  def createPopulationMap(request):
+    if request.method == "POST":
+      id = request.POST['cluster']
+      clusterArgs = Population.getPopulationById(id)
+      print(clusterArgs)
+      #dataset = shared.createDatasetLocations()
      # print(population.titleSet)
       return redirect('populations')
       #return HttpResponse(population.latitudeRange)

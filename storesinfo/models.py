@@ -9,18 +9,30 @@ class StoreManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset()
 
+class PopulationManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset()
+
 
 # Create your models here.
 class Population(models.Model):
   #store_code = models.CharField(primary_key=True,max_length=6, default=generateID)
   titleSet = models.CharField(max_length=120, null=True)
-  longitudeRange = models.FloatField(max_length=50,null=False)
-  latitudeRange = models.FloatField(max_length=50,null=False)
+  longitudeRangeMax = models.FloatField(max_length=50,null=False)
+  longitudeRangeMin = models.FloatField(max_length=50,null=False)
+  latitudeRangeMax = models.FloatField(max_length=50,null=False)
+  latitudeRangeMin = models.FloatField(max_length=50,null=False)
   samplesNumber = models.IntegerField(null=False)
   clusterStd = models.FloatField(null=False)
 
   objects = models.Manager()
-  stores_obj = StoreManager()
+  populations_obj = PopulationManager()
+  def getAll():
+    return list(Population.objects.all())
+  
+  def getPopulationById(id):
+    query = f"SELECT * FROM hm.storesinfo_population WHERE id={id}"
+    return list(Population.objects.raw(query))
 
 class KMeans(models.Model):
   titleCluster = models.CharField(max_length=120, null=True)

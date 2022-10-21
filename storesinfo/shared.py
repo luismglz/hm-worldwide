@@ -4,6 +4,9 @@ from msilib.schema import Class
 import pandas as pd
 import plotly.express as px
 import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_blobs
+from sklearn.cluster import KMeans
 
 def generateID():
   letters = 'XX'
@@ -80,3 +83,26 @@ def getMean(data):
   mean = "{:.2f}".format(np.mean(amount))
   return mean
 
+#-90 and 90 latitude x
+#-180 and 180 longitude y
+def createDatasetLocations(latRangeMax, latRangeMin, lonRangeMax,lonRangeMin,  samplesNumber, clusterStd):
+   xCoordinatesSamples, yCoordinatesLabels = make_blobs(n_samples=samplesNumber, cluster_std=clusterStd,shuffle=True, random_state=0, centers=[[latRangeMin, lonRangeMin], [latRangeMax, lonRangeMax]])
+   displayMap(xCoordinatesSamples[:,:])
+
+
+def displayMap(dataset):
+  color_scale = [(0, 'orange'), (1,'red')]
+
+  fig = px.scatter_mapbox(dataset, 
+                        lat=dataset[:,0], 
+                        lon=dataset[:,1], 
+                        color_continuous_scale=color_scale,
+                        zoom=2, 
+                        height=800,
+                        width=800)
+
+  fig.update_layout(mapbox_style="open-street-map")
+  fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+  fig.show()
+  map = fig.to_html()
+  return map

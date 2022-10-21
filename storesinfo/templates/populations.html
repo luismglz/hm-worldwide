@@ -8,23 +8,41 @@
   <h1>Populations</h1>
       <div class="  py-3">
         <div class="bg-light rounded-3 row d-flex justify-content-between">
-            <div  id="map1" class="col-3 "></div>
-            <div  id="map2" class="col-3 "></div>
-            <div id="map3" class="col-3 "></div>
-            <div class="bg-light border rounded-3 col-3">
+            <div  id="map1" class="col-7 "></div>
+            {% comment %} <div  id="map2" class="col-3 "></div> {% endcomment %}
+            {% comment %} <div id="map3" class="col-3 "></div> {% endcomment %}
+            <div class="bg-light border rounded-3 col-5">
             <form action="/populations/add/" method="POST">
               {% csrf_token %}
               <div class="form-outline mb-4">
                 <label class="form-label" for="titleSet">Title of set</label>
                 <input type="text" id="titleSet" name="titleSet" class="form-control" />
               </div>
-              <div class="form-outline mb-4">
-                <label class="form-label" for="latitudeRange">Latitude range</label>
-                <input type="number"  step="0.00000000001" id="latitudeRange" name="latitudeRange" class="form-control" />
+              <div class="form-outline mb-4 row">
+                <div class="col-5">
+                  <label class="form-label" for="latitudeRangeMax">Max latitude limit</label>
+                <input type="number"  step="0.00000000001" id="latitudeRangeMax" name="latitudeRangeMax" class="form-control" />
+                </div>
+                <div class="col-5">
+                <label class="form-label" for="latitudeRangeMin">Min latitude limit</label>
+                <input type="number"  step="0.00000000001" id="latitudeRangeMin" name="latitudeRangeMin" class="form-control" />
+                </div>
+                
               </div>
+              <div class="form-outline mb-4 row">
+                <div class="col-5">
+                  <label class="form-label" for="longitudeRangeMax">Max longitude limit</label>
+                <input type="number"  step="0.00000000001" id="longitudeRangeMax" name="longitudeRangeMax" class="form-control" />
+                </div>
+                <div class="col-5">
+                  <label class="form-label" for="longitudeRangeMin">Min longitude limit</label>
+                  <input type="number"  step="0.00000000001" id="longitudeRangeMin" name="longitudeRangeMin" class="form-control" />
+                </div>
+                
+              </div>
+             
               <div class="form-outline my-4">
-                <label class="form-label" for="longitudeRange">Longitude range</label>
-                <input type="number"  step="0.00000000001" id="longitudeRange" name="longitudeRange" class="form-control" />
+                
               </div>
            
               <div class="form-outline mb-4">
@@ -36,12 +54,23 @@
                 <input type="number" step="0.00001" id="dispersion" name="dispersion" class="form-control" />
               </div>
               <div class="row px-4 d-flex justify-content-center">
-                <button type="submit" class="btn btn-outline-dark btn-block mb-4 col-6">Confirm</button>
-              </div>
-              <div class="row px-4  d-flex justify-content-center">
-                <button type="submit" class="btn btn-outline-dark btn-block mb-4 col-6">Add</button>
+                <button type="submit" class="btn btn-outline-dark btn-block mb-4 col-6">Add cluster</button>
               </div>
               
+              
+            </form>
+            <form action="/populations/map/add/" method="POST">
+              {% csrf_token %}
+              <label class="form-label" for="titleSet">Display cluster</label>
+              <select class="form-select" name="cluster" aria-label="Select a cluster">
+                <option selected>Open this select menu</option>
+                {% for population in populations %}
+                 <option value="{{population.id}}">{{population.titleSet}}</option>
+                {% endfor %}
+              </select>
+              <div class="row px-4  d-flex justify-content-center">
+                <button type="submit" class="btn btn-outline-dark btn-block mb-4 col-6">Display</button>
+              </div>
             </form>
         </div>
         </div>

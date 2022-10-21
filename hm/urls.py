@@ -26,5 +26,6 @@ urlpatterns = [
     path('charts/', views.HmView.charts, name="charts"),
     path('populations/', views.HmView.populations, name="populations"),
     path('populations/add/', views.HmView.addPopulation, name="addPopulations"),
+    path('populations/map/add/', views.HmView.createPopulationMap, name="createPopulationMap"),
     path('clusters/', views.HmView.clusters, name="clusters"),
 ]
