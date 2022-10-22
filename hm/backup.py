@@ -39,11 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'storesinfo',
-    'dbbackup',  # django-dbbackup,
-]
-
-CRONJOBS = [
-    ('*/1 * * * *', 'hm.cron.backupDB')
+    'dbbackup',  # django-dbbackup
 ]
 
 MIDDLEWARE = [
@@ -93,6 +89,9 @@ DATABASES = {
         }  
     }
 }
+
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE_OPTIONS = {'location':  BASE_DIR / 'backup'}
 
 
 

@@ -42,10 +42,6 @@ INSTALLED_APPS = [
     'dbbackup',  # django-dbbackup,
 ]
 
-CRONJOBS = [
-    ('*/1 * * * *', 'hm.cron.backupDB')
-]
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -84,15 +80,15 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': "hm",
-        'USER': 'root',  
-        'PASSWORD': 'root',  
-        'HOST': '127.0.0.1',  
-        'PORT': '3306',  
-        'OPTIONS': {  
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"  
-        }  
+        'USER': 'root',
+        'PASSWORD': 'rootroot',
+        'HOST': 'database-1.cqmkiyubyes2.us-east-2.rds.amazonaws.com',
+        'PORT': '3306',
     }
 }
+
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE_OPTIONS = {'location':  BASE_DIR / 'backup'}
 
 
 
