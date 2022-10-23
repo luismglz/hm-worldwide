@@ -1,7 +1,6 @@
 from multiprocessing.dummy import Manager
 from pickle import TRUE
 from django.db import models
-from msilib.schema import Class
 from .shared import generateID
 
 
