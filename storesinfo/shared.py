@@ -118,3 +118,6 @@ def displayMap(dataset):
   #fig.show()
   map = fig.to_html()
   return map
+
+def parseStrToJson(stringData):
+  return json.loads(stringData)

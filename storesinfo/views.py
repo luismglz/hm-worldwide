@@ -69,6 +69,8 @@ class HmView(View):
   @csrf_exempt
   def populations(request):
     populations = Population.getAll()
+    population = Population.getPopulationById(1)
+    print(population[0])
     context = {
       "populations":populations
     }
@@ -122,8 +124,8 @@ class HmView(View):
       clusterArgs = Population.getPopulationById(id)
       
       #parse string of json to json with locations data from mysql
-      latitudes = json.loads(clusterArgs[0].latitudes)
-      longitudes = json.loads(clusterArgs[0].longitudes)
+      latitudes = shared.parseStrToJson(clusterArgs[0].latitudes)
+      longitudes = shared.parseStrToJson(clusterArgs[0].longitudes)
 
       #create a tuple with lat and lon
       locations = np.array([latitudes,longitudes])
@@ -142,6 +144,25 @@ class HmView(View):
      
       return render(request, 'populations.html', context)
       #return HttpResponse(population.latitudeRange)
+
+  def getPopulationById(request):
+    #if request.method == "POST":
+    #id = int(request.POST['id'])
+    data = []
+    #locations = np.array([la])
+    population = Population.getPopulationById(1)
+
+    #parse string of json to json with locations data from mysql
+    lat = shared.parseStrToJson(population[0].latitudes)
+    lng = shared.parseStrToJson(population[0].longitudes)
+
+    data.append({
+      "title" : population[0].titleSet, 
+      "lat" : lat, 
+      "lng" : lng})
+# data = serializers.serialize('json', rawData)
+    return JsonResponse(data, safe=False)
+
 
 
   def clusters(request):

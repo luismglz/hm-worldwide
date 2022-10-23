@@ -16,7 +16,8 @@ Including another URLconf
 from pathlib import Path
 from django.contrib import admin
 from django.urls import path
-from storesinfo import views
+from storesinfo import models, views
+import storesinfo
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,6 +26,7 @@ urlpatterns = [
     path('metrics/', views.HmView.metrics, name="metrics"),
     path('charts/', views.HmView.charts, name="charts"),
     path('populations/', views.HmView.populations, name="populations"),
+    path('population/', views.HmView.getPopulationById, name="population"),
     path('populations/add/', views.HmView.addPopulation, name="addPopulations"),
     path('populations/map/add/', views.HmView.createPopulationMap, name="createPopulationMap"),
     path('clusters/', views.HmView.clusters, name="clusters"),

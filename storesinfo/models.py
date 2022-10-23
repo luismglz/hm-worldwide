@@ -38,6 +38,7 @@ class Population(models.Model):
     query = f"SELECT * FROM hm.storesinfo_population WHERE id={id}"
     return list(Population.objects.raw(query))
 
+
 class KMeans(models.Model):
   titleCluster = models.CharField(max_length=120, null=True)
   clustersNumber = models.IntegerField(null=False)
