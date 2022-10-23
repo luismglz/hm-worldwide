@@ -2,6 +2,9 @@ from multiprocessing.dummy import Manager
 from pickle import TRUE
 from django.db import models
 from msilib.schema import Class
+from django_mysql.models import ListCharField
+
+from django.forms import CharField, FloatField
 from .shared import generateID
 
 
@@ -16,14 +19,15 @@ class PopulationManager(models.Manager):
 
 # Create your models here.
 class Population(models.Model):
-  #store_code = models.CharField(primary_key=True,max_length=6, default=generateID)
   titleSet = models.CharField(max_length=120, null=True)
-  longitudeRangeMax = models.FloatField(max_length=50,null=False)
-  longitudeRangeMin = models.FloatField(max_length=50,null=False)
-  latitudeRangeMax = models.FloatField(max_length=50,null=False)
-  latitudeRangeMin = models.FloatField(max_length=50,null=False)
-  samplesNumber = models.IntegerField(null=False)
-  clusterStd = models.FloatField(null=False)
+  #longitudeRangeMax = models.FloatField(max_length=50,null=False)
+  #longitudeRangeMin = models.FloatField(max_length=50,null=False)
+  #latitudeRangeMax = models.FloatField(max_length=50,null=False)
+  #latitudeRangeMin = models.FloatField(max_length=50,null=False)
+  #samplesNumber = models.IntegerField(null=False)
+  #clusterStd = models.FloatField(null=False)
+  latitudes = models.TextField()
+  longitudes = models.TextField()
 
   objects = models.Manager()
   populations_obj = PopulationManager()

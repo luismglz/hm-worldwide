@@ -7,6 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.datasets import make_blobs
 from sklearn.cluster import KMeans
+import json
 
 def generateID():
   letters = 'XX'
@@ -86,17 +87,27 @@ def getMean(data):
 #-90 and 90 latitude x
 #-180 and 180 longitude y
 def createDatasetLocations(latRangeMax, latRangeMin, lonRangeMax,lonRangeMin,  samplesNumber, clusterStd):
-   xCoordinatesSamples, yCoordinatesLabels = make_blobs(n_samples=samplesNumber, cluster_std=clusterStd,shuffle=True, random_state=0, center_box=[[latRangeMin, lonRangeMin], [latRangeMax, lonRangeMax]])
+  xCoordinatesSamples, yCoordinatesLabels = make_blobs(n_samples=samplesNumber, cluster_std=clusterStd,shuffle=True, random_state=0, center_box=[[latRangeMin, lonRangeMin], [latRangeMax, lonRangeMax]])
    #displayMap(xCoordinatesSamples[:,:])
-   return xCoordinatesSamples[:,:]
+   #jsonCoords = pd.Series(xCoordinatesSamples[:,:].to_json('data.json', orient='split'))
+
+   #convert ndarray to list
+  latitudeList = xCoordinatesSamples[:,0].tolist()
+  longitudeList = xCoordinatesSamples[:,1].tolist()
+
+   #serialize lists to json
+  latitudeData = json.dumps(latitudeList)
+  longitudeData = json.dumps(longitudeList)
+  return [latitudeData, longitudeData]
+  #print(latitudeList)
 
 
 def displayMap(dataset):
   color_scale = [(0, 'orange'), (1,'red')]
 
-  fig = px.scatter_mapbox(dataset, 
-                        lat=dataset[:,0], 
-                        lon=dataset[:,1], 
+  fig = px.scatter_mapbox(dataset[:], 
+                        lat=dataset[:][0], 
+                        lon=dataset[:][1], 
                         color_continuous_scale=color_scale,
                         zoom=2, 
                         height=500,

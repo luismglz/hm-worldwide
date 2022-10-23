@@ -1,12 +1,16 @@
 from distutils.command.sdist import sdist
 from functools import singledispatchmethod
+import json
 from multiprocessing import context
+from operator import index
 from django.http.response import JsonResponse
 from django.shortcuts import render,HttpResponse, redirect
 from django.views import View
 from .models import Population, Store
 from .shared import dataToDataframe, displayBarChart, getMean, displayPieChart
 from django.views.decorators.csrf import csrf_exempt
+import numpy as np
+
 
 from storesinfo import shared
 
@@ -64,10 +68,7 @@ class HmView(View):
 
   @csrf_exempt
   def populations(request):
-   # print(Store.getRandomCountries(20))
-   # map = createPopulationMap()
     populations = Population.getAll()
-    #print(populations)
     context = {
       "populations":populations
     }
@@ -77,15 +78,26 @@ class HmView(View):
 #-90 and 90 latitude x
 #-180 and 180 longitude y
   def addPopulation(request):
+
     if request.method == "POST":
       titleSet = request.POST['titleSet']
-      longitudeRangeMax = request.POST['longitudeRangeMax']
-      longitudeRangeMin = request.POST['longitudeRangeMin']
-      latitudeRangeMax = request.POST['latitudeRangeMax']
-      latitudeRangeMin = request.POST['latitudeRangeMin']
-      samplesNumber = request.POST['samplesNumber']
-      clusterStd = request.POST['dispersion']
-      population = Population(
+      longitudeRangeMax = float(request.POST['longitudeRangeMax'])
+      longitudeRangeMin = float(request.POST['longitudeRangeMin'])
+      latitudeRangeMax = float(request.POST['latitudeRangeMax'])
+      latitudeRangeMin = float(request.POST['latitudeRangeMin'])
+      samplesNumber = int(request.POST['samplesNumber'])
+      clusterStd = float(request.POST['dispersion'])
+
+
+      data = shared.createDatasetLocations(
+        latRangeMax=latitudeRangeMax,
+        latRangeMin=latitudeRangeMin,
+        lonRangeMax=longitudeRangeMax,
+        lonRangeMin=longitudeRangeMin,
+        samplesNumber=samplesNumber,
+        clusterStd=clusterStd
+        )
+      """population = Population(
         titleSet = titleSet,
         longitudeRangeMax = longitudeRangeMax,
         longitudeRangeMin = longitudeRangeMin,
@@ -93,10 +105,14 @@ class HmView(View):
         latitudeRangeMin = latitudeRangeMin,
         samplesNumber = samplesNumber,
         clusterStd = clusterStd,
+      )"""
+      population = Population(
+        titleSet = titleSet,
+        latitudes = data[0],
+        longitudes = data[1]
       )
-      population.save()
       
-     # print(population.titleSet)
+      population.save()
       return redirect('populations')
       #return HttpResponse(population.latitudeRange)
 
@@ -104,17 +120,21 @@ class HmView(View):
     if request.method == "POST":
       id = request.POST['cluster']
       clusterArgs = Population.getPopulationById(id)
-      dataset = shared.createDatasetLocations(
-        clusterArgs[0].latitudeRangeMax,
-        clusterArgs[0].latitudeRangeMin,
-        clusterArgs[0].longitudeRangeMax,
-        clusterArgs[0].longitudeRangeMin,
-        clusterArgs[0].samplesNumber,
-        clusterArgs[0].clusterStd,
-      )
       
-      map = shared.displayMap(dataset[:,:])
+      #parse string of json to json with locations data from mysql
+      latitudes = json.loads(clusterArgs[0].latitudes)
+      longitudes = json.loads(clusterArgs[0].longitudes)
+
+      #create a tuple with lat and lon
+      locations = np.array([latitudes,longitudes])
+
+      #create map send locations tuple
+      map = shared.displayMap(locations[:,:])
+
+      #get populations to fill select options
       populations = Population.getAll()
+      
+
       context = {
       'map': map,
       "populations":populations
