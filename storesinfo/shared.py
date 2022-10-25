@@ -10,6 +10,7 @@ from sklearn.cluster import KMeans
 import json
 import plotly.graph_objects as go
 import numpy as np
+from django.core import serializers
 
 def generateID():
   letters = 'XX'
@@ -163,8 +164,9 @@ def clusterLocationsMap(locations, kmeansParams, clustersNum,title , labels ='')
                           "top right"]
         ))
 
+        print('title', title)
         fig.update_layout(
-            title_text="Cluster name: "+title,
+            title_text="Cluster name: "+title[0][0],
             geo=dict(
                 lataxis=dict(range=[-90, 90]),
                 lonaxis=dict(range=[-180, 180]),
@@ -181,6 +183,7 @@ def getAllCoordinates(populations):
     labels = []
 
     for i in range(len(populations)):
+      
       populationsJson.append([parseStrToJson(populations[i].latitudes),parseStrToJson(populations[i].longitudes)])
       #labels.append([populations[i].titleSet, str(np.mean(populationsJson[0][i]))])
       for k in range(len(populationsJson[i][0])):
