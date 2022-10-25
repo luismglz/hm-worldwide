@@ -150,6 +150,7 @@ class HmView(View):
       allLocations = shared.getAllCoordinates(populations)[0]
       labels = shared.getAllCoordinates(populations)[1]
       kmeansParams = shared.trainKMeans(clustersNum, numIterations,tolerance, allLocations)
+      print(labels)
 
       kmeanSettings = KMeans(
         titleCluster= title,
@@ -165,7 +166,7 @@ class HmView(View):
         allLocations, 
         kmeansParams[0], 
         clustersNum, 
-        labels)
+        title)
       
      
 

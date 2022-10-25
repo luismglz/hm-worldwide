@@ -122,7 +122,7 @@ def trainKMeans(numClusters, iterations, tolerance, data, dispersion = 0):
   trainKMeans = km.fit_predict(data)
   return [trainKMeans, km]
 
-def clusterLocationsMap(locations, kmeansParams, clustersNum, labels, title):
+def clusterLocationsMap(locations, kmeansParams, clustersNum,title , labels =''):
       fig = go.Figure(layout=go.Layout(height=600, width=850))
       colors = ["IndianRed", "MediumPurple", "Orange", "Crimson",
                           "LightSeaGreen", "RoyalBlue", "LightSalmon", "DarkOrange", "MediumSlateBlue"]
@@ -133,8 +133,7 @@ def clusterLocationsMap(locations, kmeansParams, clustersNum, labels, title):
                           "Open Sans, sans-serif",
                           "PT Sans Narrow, sans-serif", "Raleway, sans-serif",
                           "Times New Roman, Times, serif"]
-      print(len(locations))
-      print(len(kmeansParams[0]))
+ 
       for i in range(clustersNum):
         print(i)
         
