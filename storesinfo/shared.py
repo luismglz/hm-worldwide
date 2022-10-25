@@ -1,7 +1,6 @@
 from random import randint
 from turtle import width
 from django.db import models
-from msilib.schema import Class
 import pandas as pd
 import plotly.express as px
 import numpy as np
