@@ -79,8 +79,13 @@
 <script>
 
 (async function getLocations(){
+  try {
     let response = await fetch('http://127.0.0.1:8000/population')
     let data = await response.json();
+  }
+  catch(error) {
+    console.log(error)
+  }
     //var bbox = turf.bbox(features);
     var polygon = turf.polygon([[[-81, 41], [-88, 36], [-84, 31], [-80, 33], [-77, 39], [-81, 41]]]);
     var center = turf.centerOfMass(polygon);
