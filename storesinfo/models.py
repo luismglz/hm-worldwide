@@ -16,6 +16,10 @@ class PopulationManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset()
 
+class KmeanManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset()
+
 
 # Create your models here.
 class Population(models.Model):
@@ -44,10 +48,15 @@ class KMeans(models.Model):
   clustersNumber = models.IntegerField(null=False)
   tolerance = models.FloatField(null=False)
   numberIterations = models.IntegerField(null=False)
-  clusterStd = models.FloatField(null=False)
 
   objects = models.Manager()
-  stores_obj = StoreManager()
+  kmeans_obj = KmeanManager()
+  def getAll():
+    return list(KMeans.objects.all())
+  
+  def getKmeanById(id):
+    query = f"SELECT * FROM hm.storesinfo_kmeans WHERE id={id}"
+    return list(KMeans.objects.raw(query))
 
 # Create your models here.
 class Store(models.Model):

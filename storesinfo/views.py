@@ -6,10 +6,17 @@ from operator import index
 from django.http.response import JsonResponse
 from django.shortcuts import render,HttpResponse, redirect
 from django.views import View
-from .models import Population, Store
+from .models import KMeans, Population, Store
 from .shared import dataToDataframe, displayBarChart, getMean, displayPieChart
 from django.views.decorators.csrf import csrf_exempt
 import numpy as np
+import matplotlib.pyplot as plt, mpld3
+import plotly.tools as tls
+import plotly.express as px
+import plotly.graph_objs as pgo
+from plotly.graph_objs import Marker
+import plotly.graph_objects as go
+
 
 
 from storesinfo import shared
@@ -69,8 +76,18 @@ class HmView(View):
   @csrf_exempt
   def populations(request):
     populations = Population.getAll()
-    population = Population.getPopulationById(1)
-    print(population[0])
+    """population = Population.getPopulationById(1)
+    populationsJson = []
+    lats = np.array(shared.parseStrToJson(populations[0].latitudes))
+    data = []
+
+    for i in range(len(populations)):
+      populationsJson.append([shared.parseStrToJson(populations[i].latitudes),shared.parseStrToJson(populations[i].longitudes)])
+      for k in range(len(populationsJson[i][0])):
+        data.append([populationsJson[i][0][k], populationsJson[i][1][k]])
+    
+    allLocations = np.array(data)"""
+    
     context = {
       "populations":populations
     }
@@ -118,6 +135,56 @@ class HmView(View):
       return redirect('populations')
       #return HttpResponse(population.latitudeRange)
 
+  def addKmean(request):
+
+    populations = Population.getAll()
+    k_means = KMeans.getAll()
+    print(k_means)
+
+    if request.method == "POST":
+      title = request.POST['title']
+      tolerance = float(request.POST['tolerance'])
+      numIterations = int(request.POST['numIterations'])
+      clustersNum = int(len(populations))
+
+      allLocations = shared.getAllCoordinates(populations)[0]
+      labels = shared.getAllCoordinates(populations)[1]
+      kmeansParams = shared.trainKMeans(clustersNum, numIterations,tolerance, allLocations)
+
+      kmeanSettings = KMeans(
+        titleCluster= title,
+        clustersNumber= clustersNum,
+        tolerance= tolerance,
+        numberIterations = numIterations
+      )
+      
+      kmeanSettings.save()
+      
+      print(kmeansParams[0])
+      map = shared.clusterLocationsMap(
+        allLocations, 
+        kmeansParams[0], 
+        clustersNum, 
+        labels)
+      
+     
+
+      #fig.show()
+
+      
+      
+      context = {
+      #'km': plt,
+      "clusterMap": map,
+      "k_means": k_means
+      }
+      return render(request, 'kmeans.html', context)
+      #return redirect('kmeans')
+
+
+
+
+
   def createPopulationMap(request):
     if request.method == "POST":
       id = request.POST['cluster']
@@ -141,23 +208,25 @@ class HmView(View):
       'map': map,
       "populations":populations
       }
+      
      
       return render(request, 'populations.html', context)
       #return HttpResponse(population.latitudeRange)
 
-  def getPopulationById(request):
+  def getPopulationById(request, id):
     #if request.method == "POST":
     #id = int(request.POST['id'])
+    population = Population.objects.get(pk=id)
     data = []
     #locations = np.array([la])
-    population = Population.getPopulationById(1)
+    # population = Population.getPopulationById(int(id))
 
     #parse string of json to json with locations data from mysql
-    lat = shared.parseStrToJson(population[0].latitudes)
-    lng = shared.parseStrToJson(population[0].longitudes)
+    lat = shared.parseStrToJson(population.latitudes)
+    lng = shared.parseStrToJson(population.longitudes)
 
     data.append({
-      "title" : population[0].titleSet, 
+      "title" : population.titleSet, 
       "lat" : lat, 
       "lng" : lng})
 # data = serializers.serialize('json', rawData)
@@ -165,7 +234,40 @@ class HmView(View):
 
 
 
-  def clusters(request):
+  def kmeans(request):
+    populations = Population.getAll()
+    k_means = KMeans.getAll()
+    print(k_means)
+    context = {
+      "k_means":k_means
+      }
    # print(Store.getRandomCountries(20))
-    return render(request, 'clusters.html')
+    return render(request, 'kmeans.html', context)
+
+  def displayKmean(request):
+
+    populations = Population.getAll()
+    k_means = KMeans.getAll()
+    print(k_means)
+
+    if request.method == "POST":
+      id = int(request.POST['id'])
+      k_mean = KMeans.getKmeanById(id)
+      clustersNum = int(len(populations))
+      allLocations = shared.getAllCoordinates(populations)[0]
+      labels = shared.getAllCoordinates(populations)[1]
+      kmeansParams = shared.trainKMeans(clustersNum, k_mean[0].numberIterations,k_mean[0].tolerance, allLocations)
+      map = shared.clusterLocationsMap(
+        allLocations, 
+        kmeansParams, 
+        clustersNum, 
+        labels,
+        k_mean[0].titleCluster)
+
+      context = {
+        "k_means":k_means,
+        "clusterMap": map,
+      } 
+      return render(request, 'kmeans.html', context)
+
 

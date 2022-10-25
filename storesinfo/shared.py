@@ -1,4 +1,5 @@
 from random import randint
+from turtle import width
 from django.db import models
 from msilib.schema import Class
 import pandas as pd
@@ -8,6 +9,8 @@ import matplotlib.pyplot as plt
 from sklearn.datasets import make_blobs
 from sklearn.cluster import KMeans
 import json
+import plotly.graph_objects as go
+import numpy as np
 
 def generateID():
   letters = 'XX'
@@ -60,17 +63,7 @@ def displayPieChart(data, country):
   fig = px.pie(data, values=[item.amount for item in data], names=[item.city for item in data],
               title= f'Top 5 cities with the most stores ({country})', labels={'amount':'Stores Amount'})
   fig.update_traces(textposition='inside', textinfo='percent+label')
-  #fig.show()
 
-
-  """fig = px.bar(
-    x=[item.country for item in data],
-    y=[item.amountStores for item in data],
-    text_auto='.2s',
-    title=chartTitle,
-    labels={'x':xlabel, 'y': ylabel}
-  )"""
-  #fig.update_traces(textfont_size=27, textangle=0, textposition="outside", cliponaxis=False)
   fig.update_layout(paper_bgcolor='rgba(0, 0, 0, 0)')
 
   chart = fig.to_html()
@@ -121,3 +114,82 @@ def displayMap(dataset):
 
 def parseStrToJson(stringData):
   return json.loads(stringData)
+
+
+def trainKMeans(numClusters, iterations, tolerance, data, dispersion = 0):
+
+  km = KMeans(n_clusters = numClusters, init='random', max_iter=iterations, tol=tolerance, random_state= 0)
+  trainKMeans = km.fit_predict(data)
+  return [trainKMeans, km]
+
+def clusterLocationsMap(locations, kmeansParams, clustersNum, labels, title):
+      fig = go.Figure(layout=go.Layout(height=600, width=850))
+      colors = ["IndianRed", "MediumPurple", "Orange", "Crimson",
+                          "LightSeaGreen", "RoyalBlue", "LightSalmon", "DarkOrange", "MediumSlateBlue"]
+      fonts = ["Arial, sans-serif", "Balto, sans-serif", "Courier New, monospace",
+                          "Droid Sans, sans-serif", "Droid Serif, serif",
+                          "Droid Sans Mono, sans-serif",
+                          "Gravitas One, cursive", "Old Standard TT, serif",
+                          "Open Sans, sans-serif",
+                          "PT Sans Narrow, sans-serif", "Raleway, sans-serif",
+                          "Times New Roman, Times, serif"]
+      print(len(locations))
+      print(len(kmeansParams[0]))
+      for i in range(clustersNum):
+        print(i)
+        
+        coordsX = []
+        mean = np.mean(locations[kmeansParams[0] == i,0])
+
+        fig.add_trace(go.Scattergeo(
+            lat=locations[kmeansParams[0] == i,0],
+            lon=locations[kmeansParams[0] == i,1],
+            marker={
+                "color": colors[i],
+                "line": {
+                    "width": 1
+                },
+                "size": 10
+            },
+            mode="markers+text",
+            name="",
+            text=locations[float(labels[i][1]) == mean],
+            textfont={
+                "color": colors[i],
+                "family": fonts[i],
+                "size": [22, 21, 20, 19, 18, 17, 16, 15, 14, 13]
+            },
+            textposition=["top center", "middle left", "top center", "bottom center",
+                          "top right",
+                          "middle left", "bottom right", "bottom left", "top right",
+                          "top right"]
+        ))
+
+        fig.update_layout(
+            title_text="Cluster name: "+title,
+            geo=dict(
+                lataxis=dict(range=[-90, 90]),
+                lonaxis=dict(range=[-180, 180]),
+                scope="world",
+
+            )
+        )
+      return fig.to_html()
+
+
+def getAllCoordinates(populations):
+    populationsJson = []
+    data = []
+    labels = []
+
+    for i in range(len(populations)):
+      populationsJson.append([parseStrToJson(populations[i].latitudes),parseStrToJson(populations[i].longitudes)])
+      #labels.append([populations[i].titleSet, str(np.mean(populationsJson[0][i]))])
+      for k in range(len(populationsJson[i][0])):
+        data.append([populationsJson[i][0][k], populationsJson[i][1][k]])
+        
+    for j in range(len(populations)):
+      labels.append([populations[j].titleSet, str(np.mean(populationsJson[j][0]))])
+    print(type(labels))
+    allLocations = np.array(data)
+    return [allLocations, labels]

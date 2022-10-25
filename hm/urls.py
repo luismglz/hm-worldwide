@@ -26,8 +26,10 @@ urlpatterns = [
     path('metrics/', views.HmView.metrics, name="metrics"),
     path('charts/', views.HmView.charts, name="charts"),
     path('populations/', views.HmView.populations, name="populations"),
-    path('population/', views.HmView.getPopulationById, name="population"),
+    path('population/<int:id>/', views.HmView.getPopulationById, name="population"),
     path('populations/add/', views.HmView.addPopulation, name="addPopulations"),
     path('populations/map/add/', views.HmView.createPopulationMap, name="createPopulationMap"),
-    path('clusters/', views.HmView.clusters, name="clusters"),
+    path('kmeans/', views.HmView.kmeans, name="kmeans"),
+    path('kmeans/add/', views.HmView.addKmean, name="addKmean"),
+    path('kmeans/display/', views.HmView.displayKmean, name="displayKmean"),
 ]

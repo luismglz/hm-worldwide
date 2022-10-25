@@ -62,17 +62,17 @@
               
               
             </form>
-            <form action="/populations/map/add/" method="POST">
+            <form  method="POST" id="displayPopulation">
               {% csrf_token %}
               <label class="form-label" for="titleSet">Display cluster</label>
-              <select class="form-select" name="cluster" aria-label="Select a cluster">
-                <option selected>Open this select menu</option>
+              <select class="form-select" id="clusterId" name="cluster" aria-label="Select a cluster">
+                <option disabled selected>-Select a population-</option>
                 {% for population in populations %}
                  <option value="{{population.id}}">{{population.titleSet}}</option>
                 {% endfor %}
               </select>
               <div class="row px-4  d-flex justify-content-center">
-                <button type="submit" class="btn btn-outline-dark btn-block mb-4 col-6">Display</button>
+                <button  type="submit" class="btn btn-outline-dark btn-block mb-4 col-6">Display</button>
               </div>
             </form>
         </div>
@@ -81,17 +81,61 @@
       </div>
       
 <div>
-      <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js" integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw==" crossorigin=""></script>
-<script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></script>
+  {% comment %} <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' /> {% endcomment %}
+       <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js" integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw==" crossorigin=""></script>
+       <script src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js"></script>
+
+<script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></script> 
 <script>
+//var map = L.map('mapPopulations').setView([32, 32], 6);
+  //var map = L.map('mapPopulations').setView([32, 32], 6);
 
-(async function getLocations(){
-    let response = await fetch('http://127.0.0.1:8000/population')
-    let data = await response.json();
-    console.log(data)
 
-   // var map = L.map('mapPopulations').setView([22.824722452136204, 174.73532038186778], 2);
-   var map = L.map('mapPopulations').setView([data[0].lat[0], data[0].lng[0]], 6);
+  //var form = document.querySelector('#displayPopulation').addEventListener('submit', handleSubmit)
+ 
+// map && map.remove()
+const form = document.querySelector('#displayPopulation');
+const mapDiv = document.querySelector('#mapPopulations');
+window.addEventListener('load', () => {
+  form.addEventListener('submit', handleForm);
+});
+
+
+function handleForm(e){
+    e.preventDefault();
+
+    //validate
+    const id = document.querySelector('#clusterId').value;
+
+
+    //consult the API
+    getCluster(id);
+}
+
+function getCluster(id){
+
+  const URL = `http://127.0.0.1:8000/population/${id}/`;
+
+  fetch(URL)
+    .then( response => response.json())
+    .then( result => {
+
+      
+
+      //removeMap();
+
+      //print result in HTML
+      showMap(result);
+    })
+
+}
+
+
+function showMap(data){
+  mapDiv.innerHTML ="<div id='map' style='width: 100%; height: 100%;'></div>"
+var map = L.map('map').setView([data[0].lat[1], data[0].lng[1]], 10);
+   
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 20,
@@ -100,10 +144,47 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 const markers1 = data;
 
-console.log(markers1)
+
+
+
+    var polygon1 = turf.polygon([[
+        [128, -26],
+        [141, -26],
+        [141, -21],
+        [128, -21],
+        [128, -26]
+    ]], {
+        "fill": "#F00",
+        "fill-opacity": 0.1
+    });
+
+    // var polyGeojson = L.geoJSON(polygon1).addTo(map)
+
+    var polygon2 = turf.polygon([[
+        [126, -28],
+        [140, -28],
+        [140, -20],
+        [126, -20],
+        [126, -28]
+    ]], {
+        "fill": "#00F",
+        "fill-opacity": 0.1
+    });
+
+    var polyGeojson2 = L.geoJSON(polygon2).addTo(map)
+
+
+   // var difference = turf.difference(polygon1, polygon2);
+
+   // var diffGeojson = L.geoJSON(difference).addTo(map)
+
+    // map.fitBounds(diffGeojson.getBounds())
+
+
+///
 
 var markers = L.markerClusterGroup();
-
+console.log(markers1[0].lat)
 markers1[0].lat.forEach((element, index) => { 
 let dataPopUp = `
 <b>${data[0].title}</b>
@@ -116,10 +197,20 @@ let dataPopUp = `
   markers.addLayer(marker);
 })
 
-map.addLayer(markers); 
-})()
+map.addLayer(markers);
+}
+
+function removeMap(){
+  while(mapDiv.firstChild){
+    mapDiv.className = "";
+    mapDiv.removeChild(mapDiv.firstChild);
+  }
+}
+    var polygon = turf.polygon([[[-81, 41], [-88, 36], [-84, 31], [-80, 33], [-77, 39], [-81, 41]]]);
+    var center = turf.centerOfMass(polygon);
 
 
 
-  </script>
+
+</script>
   {%endblock%}

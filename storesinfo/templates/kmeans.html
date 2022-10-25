@@ -1,0 +1,168 @@
+{% extends 'layout.html' %}
+{%block title%}K-means{%endblock%}
+
+
+{% block content %}
+<div class="container-xxl">
+{{block.super}}
+  <h1>Add k-mean</h1>
+      <div class="  py-3">
+        <div class="bg-light border rounded-3 row d-flex justify-content-between">
+             <div  class="col-9 " >
+              {% comment %} {{map|safe}} {% endcomment %}
+              
+                {% if not clusterMap %}
+                <div class="d-flex align-items-center justify-content-center h-100 w-100">
+                  <h4 class="text-center text-danger">Select a cluster settings to display here</h4>
+                </div>
+                {% else %}
+                <div  id="mapKmeans">
+                {{clusterMap|safe}}
+                </div>
+                {% endif %}
+                {% comment %} {{clusterMap|message}} {% endcomment %}
+              
+            </div>
+            <div class="bg-light border rounded-3 col-3">
+            <form action="/kmeans/add/" method="POST">
+              {% csrf_token %}
+              <h1>K-Means</h1>
+              {% comment %} <div class="form-outline my-4">
+                <label class="form-label" for="form6Example6">Clusters number</label>
+                <input type="number" id="form6Example6" class="form-control" />
+              </div> {% endcomment %}
+              <div class="form-outline mb-4">
+                <label class="form-label" for="title">Title of trained model</label>
+                <input type="text" id="title" name="title" class="form-control" />
+              </div>
+              <div class="form-outline mb-4">
+                <label class="form-label" for="tolerance">Tolerance</label>
+                <input type="number" id="tolerance" name="tolerance" step="0.00000000001" class="form-control" />
+              </div>
+              <div class="form-outline mb-4">
+                <label class="form-label" for="numIterations">Number of iterations</label>
+                <input type="number" id="numIterations" name="numIterations" class="form-control" />
+              </div>
+              <div hidden class="form-outline mb-4">
+                <label class="form-label" for="dispersion">Dispersion</label>
+                <input type="number" id="dispersion" name="dispersion" step="0.00000000001"  class="form-control" />
+              </div>
+              <div class="row px-4 d-flex justify-content-center">
+                <button type="submit" class="btn btn-dark btn-block mb-4 col-6">Train model</button>
+              </div>
+              
+            </form>
+            <form action="/kmeans/display/" method="POST">
+              {% csrf_token %}
+              <label class="form-label" for="titleSet">Display clusters</label>
+              <select class="form-select" name="id" aria-label="Select a cluster">
+                <option disabled selected>-Select k-means params-</option>
+                {% for kmean in k_means %}
+                 <option value="{{kmean.id}}">{{kmean.titleCluster}}</option>
+                {% endfor %}
+              </select>
+              <div class="row px-4  d-flex justify-content-center">
+                <button type="submit" class="btn btn-outline-dark btn-block mb-4 col-6">Display</button>
+              </div>
+            </form>
+        </div>
+        </div>
+        
+      </div>
+      
+<div>
+   <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
+  {% comment %} <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' /> {% endcomment %}
+      {% comment %} <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js" integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw==" crossorigin=""></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></script> {% endcomment %}
+<script>
+
+(async function getLocations(){
+    let response = await fetch('http://127.0.0.1:8000/population')
+    let data = await response.json();
+    //var bbox = turf.bbox(features);
+    var polygon = turf.polygon([[[-81, 41], [-88, 36], [-84, 31], [-80, 33], [-77, 39], [-81, 41]]]);
+    var center = turf.centerOfMass(polygon);
+
+   // var map = L.map('mapPopulations').setView([22.824722452136204, 174.73532038186778], 2);
+  /* var map = L.map('mapPopulations').setView([data[0].lat[0], data[0].lng[0]], 6);
+
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 20,
+  attribution: '© Yorch maps'
+}).addTo(map);
+
+const markers1 = data;
+
+console.log(markers1)
+
+var markers = L.markerClusterGroup();
+
+markers1[0].lat.forEach((element, index) => { 
+let dataPopUp = `
+<b>${data[0].title}</b>
+<br>
+<label>Lat: ${element}, Lng: ${markers1[0].lng[index]}</label>`
+
+
+  var marker = L.marker([element, markers1[0].lng[index]]);
+  marker.bindPopup(dataPopUp).openPopup();
+  markers.addLayer(marker);
+})
+
+map.addLayer(markers);*/
+mapboxgl.accessToken = 'p.eyJ1IjoibHVpc2dsZXpsIiwiYSI6ImNsNHFsOXYzZzBiYXQzY3FudW5ucnp4MWcifQ.s_n4DIx7VznyWdoLYXSdvA';
+  /*var map = new mapboxgl.Map({
+    container: 'mapKmeans',
+    style: 'mapbox://styles/mapbox/dark-v10'
+  });*/
+
+  var point = turf.point([-66.522259, 10.469100], {
+    "title": "Caracas",
+    "marker-color": "#3bb2d0",
+    "marker-symbol": "rocket",
+    "marker-size": "large"
+});
+
+arr = []
+data[0].lat.map(e=>{
+  arr.push([data[0].lng[data[0].lat.indexOf(e)+1], e])
+})
+console.log(arr)
+
+map.on('load', () => {
+// Add a data source containing GeoJSON data.
+map.addSource('maine', {
+'type': 'geojson',
+'data': {
+'type': 'Feature',
+'geometry': {
+'type': 'Polygon',
+// These coordinates outline Maine.
+'coordinates': [arr]
+}
+}
+});
+ 
+
+})
+// Add a new layer to visualize the polygon.
+
+map.addLayer({
+'id': 'outline',
+'type': 'line',
+'source': 'maine',
+'layout': {},
+'paint': {
+'line-color': '#000',
+'line-width': 3
+}
+});
+
+
+
+})()
+
+</script>
+  {%endblock%}
