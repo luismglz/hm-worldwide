@@ -7,6 +7,6 @@ class StoresinfoConfig(AppConfig):
     name = 'storesinfo'
     
     def ready(self) -> None:
-        run_scheduler()
+        # run_scheduler()
         return super().ready()
         
