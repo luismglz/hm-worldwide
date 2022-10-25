@@ -153,7 +153,7 @@ def clusterLocationsMap(locations, kmeansParams, clustersNum, labels, title):
             },
             mode="markers+text",
             name="",
-            text=locations[float(labels[i][1]) == mean],
+            text="Cluster "+str(i),
             textfont={
                 "color": colors[i],
                 "family": fonts[i],

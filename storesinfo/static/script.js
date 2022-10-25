@@ -16,7 +16,7 @@ switch (path) {
   case "charts":
     nav.children[3].classList.add('active')
     break;
-  case "populations":
+  case "populations" || "population":
     nav.children[4].classList.add('active')
     populationMaps()
     break;
